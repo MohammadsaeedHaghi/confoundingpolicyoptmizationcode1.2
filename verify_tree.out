@@ -1,0 +1,14 @@
+Set parameter TokenServer to value "hpc-licenses.hpcc.usc.edu"
+IPW-O-X            new==old  (dobj 0.0e+00, dpi 0.0e+00)
+DoublyRobust-O-X   new==old  (dobj 0.0e+00, dpi 0.0e+00)
+Hajek-O-X          new==old  (dobj 0.0e+00, dpi 0.0e+00)
+IPW-O-W            new==old  (dobj 0.0e+00, dpi 0.0e+00)
+DoublyRobust-O-W   new==old  (dobj 0.0e+00, dpi 0.0e+00)
+Hajek-O-W          new==old  (dobj 0.0e+00, dpi 0.0e+00)
+IPW-X-X            new==old  (dobj 0.0e+00, dpi 0.0e+00)
+DoublyRobust-X-X   new==old  (dobj 0.0e+00, dpi 0.0e+00)
+Direct-X-X         new==old  (dobj 0.0e+00, dpi 0.0e+00)
+all capped variants import OK
+Gamma=1 identity holds: IPW-O-W == IPW-O-X == IPW-X-X == 0.314486
+CODE 1.2 TREE VERIFIED
+VERIFY12_DONE

@@ -1,0 +1,298 @@
+<title>Code 1.2 Method Programs</title>
+<meta name="description" content="The optimisation problem each code 1.2 method solves, derived from the code.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+:root{
+  --ground:#F3F4F0; --panel:#FFFFFF; --ink:#1D2320; --muted:#5E6862; --rule:#D8DCD4;
+  --accent:#245C86; --accent-soft:#E4ECF3; --code:#7A4E12;
+  --finding:#A8412A; --finding-bg:#F8EAE5; --caveat:#7A5A0C; --caveat-bg:#F6EFDA;
+  --note:#4A5560; --note-bg:#ECEFF1; --check:#2E6E4A; --check-bg:#E5F1EA;
+  --sans:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --ground:#121614; --panel:#191E1B; --ink:#E4E8E3; --muted:#9AA59E; --rule:#2B322E;
+  --accent:#86B6DB; --accent-soft:#1E2A34; --code:#D8A55C;
+  --finding:#EB8F76; --finding-bg:#33211C; --caveat:#DCC07A; --caveat-bg:#2E2918;
+  --note:#B3BCC4; --note-bg:#1F2428; --check:#88CBA3; --check-bg:#1B2A21;
+}}
+:root[data-theme="dark"]{
+  --ground:#121614; --panel:#191E1B; --ink:#E4E8E3; --muted:#9AA59E; --rule:#2B322E;
+  --accent:#86B6DB; --accent-soft:#1E2A34; --code:#D8A55C;
+  --finding:#EB8F76; --finding-bg:#33211C; --caveat:#DCC07A; --caveat-bg:#2E2918;
+  --note:#B3BCC4; --note-bg:#1F2428; --check:#88CBA3; --check-bg:#1B2A21;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--ground);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.6;margin:0;padding-inline:clamp(16px,4vw,40px)}
+.wrap{max-width:980px;margin:0 auto}
+header.top{padding-block:40px 20px}
+.kicker{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+h1{font-family:var(--sans);font-weight:600;font-size:clamp(28px,4.4vw,40px);line-height:1.12;margin:0 0 18px;text-wrap:balance;letter-spacing:-.005em}
+header.top p{max-width:68ch;margin:0 0 12px}
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--ground);border-bottom:1px solid var(--rule);padding-block:10px;display:flex;flex-wrap:wrap;gap:6px 22px}
+.tab-group{display:flex;flex-direction:column;gap:4px;min-width:0}
+.tab-group-label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tab-row{display:flex;flex-wrap:wrap;gap:4px}
+nav.tabs button{font-family:var(--sans);font-weight:500;font-size:15px;color:var(--ink);background:transparent;border:1px solid var(--rule);border-radius:3px;padding:4px 10px;cursor:pointer;line-height:1.3}
+nav.tabs button:hover{border-color:var(--accent);color:var(--accent)}
+nav.tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{padding-block:28px 64px}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:clamp(18px,3.5vw,40px)}
+.panel>h2{font-family:var(--sans);font-weight:600;font-size:30px;line-height:1.15;margin:0 0 18px;letter-spacing:-.005em}
+.panel h3{font-family:var(--sans);font-weight:600;font-size:21px;margin:34px 0 10px;text-wrap:balance}
+.panel h4{font-family:var(--sans);font-weight:600;font-size:17px;margin:24px 0 8px}
+.panel p,.panel li{max-width:70ch}
+.panel p{margin:0 0 14px}
+.panel ul,.panel ol{margin:0 0 16px;padding-left:1.3em}
+.panel li{margin:0 0 6px}
+code{font-family:var(--mono);font-size:.84em;color:var(--code);background:transparent;overflow-wrap:anywhere}
+pre{overflow-x:auto;background:var(--note-bg);padding:12px;border-radius:3px}
+a{color:var(--accent)}
+.math-block{overflow-x:auto;overflow-y:hidden;margin:6px 0 18px;padding:10px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.math-block mjx-container{margin:0!important}
+mjx-container{color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:4px 0 20px}
+table{border-collapse:collapse;font-size:15px;line-height:1.45;width:100%;font-variant-numeric:tabular-nums}
+th,td{text-align:left;vertical-align:top;padding:7px 10px;border-bottom:1px solid var(--rule)}
+th{font-family:var(--sans);font-weight:600;font-size:14px;color:var(--muted);border-bottom:1.5px solid var(--ink);white-space:nowrap}
+td:first-child{font-family:var(--sans);font-weight:500;white-space:nowrap}
+dl.facts{display:grid;grid-template-columns:max-content 1fr;gap:6px 18px;margin:0 0 22px;padding:14px 16px;background:var(--accent-soft);border-radius:3px;font-size:15px}
+dl.facts dt{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+dl.facts dd{margin:0;min-width:0}
+.callout{margin:6px 0 20px;padding:12px 16px;border-radius:3px;border:1px solid transparent}
+.callout p{margin:0}
+.callout-label{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:500;margin-bottom:4px}
+.callout.finding{background:var(--finding-bg);border-color:color-mix(in srgb,var(--finding) 35%,transparent)}
+.callout.finding .callout-label{color:var(--finding)}
+.callout.caveat{background:var(--caveat-bg);border-color:color-mix(in srgb,var(--caveat) 35%,transparent)}
+.callout.caveat .callout-label{color:var(--caveat)}
+.callout.note{background:var(--note-bg)}
+.callout.note .callout-label{color:var(--note)}
+.callout.check{background:var(--check-bg)}
+.callout.check .callout-label{color:var(--check)}
+footer{font-family:var(--mono);font-size:12px;color:var(--muted);padding-block:0 40px}
+@media (max-width:560px){
+  body{font-size:16px}
+  nav.tabs{flex-wrap:nowrap;overflow-x:auto;gap:18px}
+  .tab-row{flex-wrap:nowrap}
+  nav.tabs button{white-space:nowrap}
+  dl.facts{grid-template-columns:1fr}
+  dl.facts dd{margin-bottom:6px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+<div class="wrap">
+<header class="top">
+<p class="kicker">code 1.2 · methods/ · read against the source</p>
+<h1>What each method in code 1.2 solves</h1>
+<p>This document states, for every method in <code>code 1.2/methods</code>, the optimisation problem the code actually builds and hands to Gurobi (or, for the two published baselines, the procedure it actually runs). It was written by reading the code line by line, not from the paper, so that you can check the implementation against the mathematics. Every program is written in the code's own variables, and every tab lists the file and lines where each piece lives. Where the code does something you might not expect, a <strong>Finding</strong> box says so.</p>
+<p>What has already been verified numerically (2026-09-13): code 1.2 reproduces code 1.1 exactly on all nine LP methods (difference 0.0e+00); every capped solver with a non-binding cap equals its uncapped twin (27 of 27 cases); and at Γ = 1, IPW-O-W, IPW-O-X and IPW-X-X give the same optimum (0.314486). Those checks prove the code is <em>consistent</em>. Whether it solves the <em>right problem</em> is what this document lets you check.</p>
+</header>
+<nav class="tabs" role="tablist" aria-label="Methods"><div class="tab-group"><span class="tab-group-label">Start</span><div class="tab-row"><button type="button" role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="false" tabindex="-1">Overview</button><button type="button" role="tab" id="tab-shared-inputs" aria-controls="panel-shared-inputs" aria-selected="false" tabindex="-1">Shared inputs</button></div></div><div class="tab-group"><span class="tab-group-label">O-W</span><div class="tab-row"><button type="button" role="tab" id="tab-ipw-o-w" aria-controls="panel-ipw-o-w" aria-selected="false" tabindex="-1">IPW-O-W</button><button type="button" role="tab" id="tab-doublyrobust-o-w" aria-controls="panel-doublyrobust-o-w" aria-selected="false" tabindex="-1">DoublyRobust-O-W</button><button type="button" role="tab" id="tab-hajek-o-w" aria-controls="panel-hajek-o-w" aria-selected="false" tabindex="-1">Hajek-O-W</button></div></div><div class="tab-group"><span class="tab-group-label">O-X</span><div class="tab-row"><button type="button" role="tab" id="tab-ipw-o-x" aria-controls="panel-ipw-o-x" aria-selected="false" tabindex="-1">IPW-O-X</button><button type="button" role="tab" id="tab-doublyrobust-o-x" aria-controls="panel-doublyrobust-o-x" aria-selected="false" tabindex="-1">DoublyRobust-O-X</button><button type="button" role="tab" id="tab-hajek-o-x" aria-controls="panel-hajek-o-x" aria-selected="false" tabindex="-1">Hajek-O-X</button></div></div><div class="tab-group"><span class="tab-group-label">X-X</span><div class="tab-row"><button type="button" role="tab" id="tab-ipw-x-x" aria-controls="panel-ipw-x-x" aria-selected="false" tabindex="-1">IPW-X-X</button><button type="button" role="tab" id="tab-doublyrobust-x-x" aria-controls="panel-doublyrobust-x-x" aria-selected="false" tabindex="-1">DoublyRobust-X-X</button><button type="button" role="tab" id="tab-direct-x-x" aria-controls="panel-direct-x-x" aria-selected="false" tabindex="-1">Direct-X-X</button></div></div><div class="tab-group"><span class="tab-group-label">Baselines</span><div class="tab-row"><button type="button" role="tab" id="tab-kallus" aria-controls="panel-kallus" aria-selected="false" tabindex="-1">Kallus</button><button type="button" role="tab" id="tab-sharphess" aria-controls="panel-sharphess" aria-selected="false" tabindex="-1">SharpHess</button></div></div><div class="tab-group"><span class="tab-group-label">Reference</span><div class="tab-row"><button type="button" role="tab" id="tab-oracle" aria-controls="panel-oracle" aria-selected="false" tabindex="-1">Oracle</button></div></div><div class="tab-group"><span class="tab-group-label">Findings</span><div class="tab-row"><button type="button" role="tab" id="tab-findings" aria-controls="panel-findings" aria-selected="false" tabindex="-1">Findings</button></div></div></nav>
+<main><section class="panel" role="tabpanel" id="panel-overview" aria-labelledby="tab-overview" hidden><h2>Overview</h2><h3 id="overview-notation-used-on-every-tab">Notation used on every tab</h3>
+<div class="table-wrap"><table><thead><tr><th>Symbol</th><th>Meaning</th><th>Name in the code</th></tr></thead><tbody><tr><td>\(n\)</td><td>number of training units</td><td><code>n</code></td></tr><tr><td>\(K\)</td><td>number of arms; arm 0 is control</td><td><code>n_arms</code>, <code>K</code></td></tr><tr><td>\(X_i, T_i, Y_i\)</td><td>covariates, observed arm, observed outcome of unit \(i\)</td><td><code>X</code>, <code>T</code>, <code>Y</code></td></tr><tr><td>\(I_k\)</td><td>the units observed on arm \(k\), \(\{i : T_i = k\}\)</td><td><code>i_by_t[k]</code></td></tr><tr><td>\(s_i\)</td><td>the support point of unit \(i\): \(X_i\) itself, or \(X_i\) snapped to the grid</td><td><code>support_X</code></td></tr><tr><td>\(\pi_{k,i}\)</td><td>decision variable: probability of assigning arm \(k\) to unit \(i\)</td><td><code>pi[k, i]</code></td></tr><tr><td>\(\hat w_i\)</td><td>nominal inverse-propensity weight of unit \(i\) (normalised unless stated)</td><td><code>w_hat</code>, argument <code>ips_weights</code></td></tr><tr><td>\(W_i\)</td><td>the adversary's weight for unit \(i\) (inside the uncertainty set)</td><td>dualised away; never a variable</td></tr><tr><td>\([a_i, b_i]\)</td><td>the odds-ratio (MSM) box for \(W_i\) at sensitivity \(\Gamma\)</td><td><code>a_box</code>, <code>b_box</code></td></tr><tr><td>\(D_{ij}\)</td><td>ground distance \(\lVert s_i - s_j \rVert_2\)</td><td><code>D</code></td></tr><tr><td>\(\varepsilon_k\)</td><td>Wasserstein radius of arm \(k\)</td><td><code>epsilon[k]</code></td></tr><tr><td>\(\hat\mu_k(x)\)</td><td>outcome model, estimate of \(E[Y \mid X = x, T = k]\)</td><td><code>muhat</code>, argument <code>outcome_means</code></td></tr><tr><td>\(r_i\)</td><td>residual on the observed arm, \(Y_i - \hat\mu_{T_i}(X_i)\)</td><td><code>resid</code></td></tr><tr><td>\(L\)</td><td>Lipschitz constant of the policy class</td><td><code>lipschitz</code></td></tr></tbody></table></div>
+<p>Method names follow <code>&lt;Estimator&gt;-&lt;UncertaintySet&gt;</code>. <strong>O-W</strong>: the weights range over the odds box intersected with a Wasserstein covariate-balance ball. <strong>O-X</strong>: the odds box only (plus the per-arm calibration \(\sum_{i\in I_k} W_i = n\)). <strong>X-X</strong>: no uncertainty set; the nominal weights are used as they are.</p>
+<h3 id="overview-the-policy-set-shared-by-every-lp-method">The policy set shared by every LP method</h3>
+<div class="math-block">\[\Pi=\Big\{\pi\ :\ \sum_{k}\pi_{k,i}=1,\ \ 0\le \pi_{k,i}\le 1\ \ \forall i;\quad \pi_{k,i}=\pi_{k,j}\ \text{ whenever } s_i=s_j;\quad \text{[Lipschitz]};\quad \text{[capacity]}\Big\}\]</div>
+<p>The bracketed parts are optional. The Shared inputs tab gives each one exactly as coded.</p>
+<h3 id="overview-the-methods-at-a-glance">The methods at a glance</h3>
+<div class="table-wrap"><table><thead><tr><th>Method</th><th>Objective</th><th>Set the adversary's weights range over</th><th>Weights passed in</th><th>Solved as</th><th>At Γ = 1</th></tr></thead><tbody><tr><td>IPW-O-W</td><td>maximise worst-case IPW value</td><td>box ∩ per-arm Wasserstein ball</td><td>normalised \(\hat w\)</td><td>one LP (max)</td><td>IPW-X-X, when \(c_\varepsilon \ge 1\)</td></tr><tr><td>DoublyRobust-O-W</td><td>maximise direct term + worst-case residual term</td><td>box ∩ per-arm Wasserstein ball</td><td>normalised \(\hat w\), \(\hat\mu\)</td><td>one LP (max)</td><td>DoublyRobust-X-X, when \(c_\varepsilon \ge 1\)</td></tr><tr><td>Hajek-O-W</td><td>minimise worst-case regret against treat-nobody</td><td>box ∩ per-arm Wasserstein ball</td><td>normalised \(\hat w\)</td><td>one LP (min)</td><td>same argmax as IPW-X-X</td></tr><tr><td>IPW-O-X</td><td>maximise worst-case IPW value</td><td>box ∩ \(\{\sum_{I_k} W = n\}\)</td><td>normalised \(\hat w\)</td><td>one LP (max)</td><td>IPW-X-X</td></tr><tr><td>DoublyRobust-O-X</td><td>maximise direct term + worst-case residual term</td><td>box ∩ \(\{\sum_{I_k} W = n\}\)</td><td>normalised \(\hat w\), \(\hat\mu\)</td><td>one LP (max)</td><td>DoublyRobust-X-X</td></tr><tr><td>Hajek-O-X</td><td>minimise worst-case self-normalised regret</td><td>box, self-normalised per arm</td><td><strong>raw</strong> \(1/\hat e\)</td><td>one LP (Charnes–Cooper, min)</td><td>same argmax as IPW-X-X</td></tr><tr><td>IPW-X-X</td><td>maximise Hájek IPW value</td><td>none</td><td>normalised \(\hat w\)</td><td>one LP</td><td>–</td></tr><tr><td>DoublyRobust-X-X</td><td>maximise AIPW value</td><td>none</td><td>normalised \(\hat w\), \(\hat\mu\)</td><td>one LP</td><td>–</td></tr><tr><td>Direct-X-X</td><td>maximise \(\frac1n\sum_i Y_i\pi_{T_i,i}\)</td><td>none (weights fixed at 1)</td><td>none</td><td>one LP</td><td>–</td></tr><tr><td>Kallus</td><td>minimise worst-case regret, logistic policy</td><td>box, self-normalised per arm</td><td><strong>raw</strong> \(1/\hat e\)</td><td>subgradient descent (non-convex)</td><td>–</td></tr><tr><td>SharpHess</td><td>maximise the efficient sharp lower bound, neural policy</td><td>MSM sharp bound</td><td>none (fits its own nuisances)</td><td>neural nets + Adam</td><td>AIPW score</td></tr><tr><td>Oracle</td><td>maximise supplied true values</td><td>none</td><td>true values</td><td>one LP</td><td>reference only</td></tr></tbody></table></div>
+<p><strong>Why the Γ = 1 column holds.</strong> At Γ = 1 the box collapses to the point \(a_i = b_i = \hat w_i\). For O-X the calibration \(\sum_{I_k}\hat w = n\) already holds for normalised weights, so the inner problem has the single feasible point \(W = \hat w\) and the value is the IPW-X-X value. For O-W the point \(W = \hat w\) must also lie in the ball, which holds exactly when \(\varepsilon_k \ge \varepsilon_k^{\text{tight}}\), i.e. \(c_\varepsilon \ge 1\); with \(c_\varepsilon &lt; 1\) the problem is infeasible and the solver raises. For the regret methods the objective becomes \(V(\pi_0) - V(\pi)\) with \(V(\pi_0)\) a constant, so the minimiser is the IPW-X-X maximiser. For Hajek-O-X on raw weights, the per-arm ratio \(\sum_{I_t}\rho_i\tilde w_i/\sum_{I_t}\tilde w_i\) equals \(\frac1n\sum_{I_t}\rho_i\hat w_i\), because normalisation only rescales each arm's raw weights to sum to \(n\).</p>
+<h3 id="overview-how-the-experiments-call-these-solvers">How the experiments call these solvers</h3>
+<ul><li><strong>Outcome.</strong> The runner standardises \(Y\) (mean 0, sd 1) before every solve. This matters: with a non-negative, uncentred \(Y\) the worst case simply pushes every weight to its lower end, and the box stops discriminating between policies.</li><li><strong>Weights.</strong> <code>common.ipw_weights_from_data(X, T, 2)</code> gives the normalised \(\hat w\). Hajek-O-X and Kallus are given <code>normalize=False</code>, the raw \(\tilde w = 1/\hat e\).</li><li><strong>Outcome model.</strong> <code>common.outcome_means(X, T, Y, n_arms=2, cross_fit=True)</code> (5 folds).</li><li><strong>Radius.</strong> The runners pass <code>c_eps</code> and leave <code>epsilon=None</code>, so the solver computes the tight radius itself, on its own support.</li><li><strong>Deployment.</strong> The learned \(\pi_{1,\cdot}\) lives on the training support. Test points are mapped to it by the Shapley extension (after snapping to the grid when <code>discretize=True</code>).</li><li><strong>Γ*.</strong> The DGP's confounding level is the tight bound on the odds ratio between the true and the nominal propensity, \(\Gamma^* = \max_{x,u}\max(\mathrm{OR}, 1/\mathrm{OR})\) with \(\mathrm{OR} = \mathrm{odds}(e(x,u))/\mathrm{odds}(e(x))\), computed by <code>common.sensitivity.gamma_star</code>.</li></ul></section><section class="panel" role="tabpanel" id="panel-shared-inputs" aria-labelledby="tab-shared-inputs" hidden><h2>Shared inputs</h2><h3 id="shared-inputs-propensity-model-and-weights">Propensity model and weights</h3>
+<p>Files: <code>common/propensity.py</code>, <code>common/hajek.py</code>.</p>
+<p>The nominal propensity is a logistic regression of \(T\) on \(X\) (scikit-learn <code>LogisticRegression</code>, solver lbfgs, <code>max_iter=2000</code>, all other settings at their defaults), clipped to \([10^{-3}, 1-10^{-3}]\) with rows renormalised to sum to 1 (<code>propensity.py:87</code>).</p>
+<div class="math-block">\[\tilde w_i=\frac{1}{\hat e_{T_i}(X_i)}\ \ \ge 1\quad\text{(raw)},\qquad
+\hat w_i=\tilde w_i\cdot\frac{n}{\sum_{j\in I_{T_i}}\tilde w_j}\quad\text{(normalised, the default)}\]</div>
+<p>After normalisation every arm's weights sum to \(n\): \(\sum_{i\in I_k}\hat w_i = n\). This is what the O-X calibration constraint and the O-W transport marginals assume. A normalised weight is below 1 only when \(\tilde w_i &lt; \frac1n\sum_{j\in I_{T_i}}\tilde w_j\). Because an arm's average normalised weight is \(n/\lvert I_k\rvert \ge 1\), this is rare.</p>
+<aside class="callout finding"><span class="callout-label">Finding</span><p>The logistic fit is L2-regularised: scikit-learn's default is <code>C = 1</code>, so this is not the unpenalised maximum-likelihood fit. With \(X \in [-1,1]^d\) and \(n = 200\) the shrinkage is mild but real: it pulls \(\hat e\) toward \(1/2\) and narrows the spread of \(\hat w\).</p></aside>
+<h3 id="shared-inputs-the-odds-ratio-msm-box">The odds-ratio (MSM) box</h3>
+<p>File: <code>common/sensitivity.py:47–67</code>.</p>
+<div class="math-block">\[\ell_i = 1+\frac{\hat w_i-1}{\Gamma},\qquad u_i = 1+\Gamma(\hat w_i-1),\qquad a_i=\min(\ell_i,u_i),\qquad b_i=\max(\ell_i,u_i)\]</div>
+<p><strong>Why this is the right box.</strong> For a raw weight \(w = 1/e\) we have \(w-1 = (1-e)/e = 1/\mathrm{odds}(e)\). So the true weight \(1/e(x,u)\) lies in \(\{1 + t(\hat w - 1) : t\in[1/\Gamma,\Gamma]\}\) exactly when \(\mathrm{odds}(\hat e)/\mathrm{odds}(e(x,u)) \in [1/\Gamma, \Gamma]\), i.e. when the odds ratio is bounded by \(\Gamma\). The smallest \(\Gamma\) that covers every unit is \(\Gamma^*\).</p>
+<p><strong>Which weights the box is built on.</strong> IPW-O-W, IPW-O-X, DoublyRobust-O-W, DoublyRobust-O-X and Hajek-O-W receive the <em>normalised</em> \(\hat w\): normalisation happens first, when the nominal propensities are built, and the box is then a constraint inside the optimisation. Hajek-O-X and Kallus receive the <em>raw</em> \(\tilde w \ge 1\); they normalise inside their own problem.</p>
+<aside class="callout finding"><span class="callout-label">Finding</span><p>When \(\hat w_i &lt; 1\) the formula's image is decreasing in \(t\), which is why the code takes the min and max. Its lower end \(a_i = 1 + \Gamma(\hat w_i - 1)\) becomes <strong>negative</strong> once \(\Gamma &gt; 1/(1-\hat w_i)\). In the O-W programs this is harmless: the transport marginal \(\sum_i\zeta^k_{ij} = W_j/n\) with \(\zeta\ge 0\) already forces \(W_j \ge 0\). In the O-X programs the weights are free variables (their dual constraint is an equality), so negative weights would be admitted. Measured on Our DGP and the 2-D lift L4 at \(n = 200\) (3 draws each): no unit had \(\hat w_i&lt;1\), so no lower end was negative at any Γ up to 150, and clamping the lower end at 0 left IPW-O-X and DoublyRobust-O-X unchanged (identical objective, \(\max\lvert\Delta\pi\rvert = 0\)). The case is latent in these experiments.</p></aside>
+<h3 id="shared-inputs-support-and-tying">Support and tying</h3>
+<p>File: <code>common/support.py</code>.</p>
+<p>With <code>discretize=True</code>, every coordinate of \(X_i\) is snapped to the nearest of <code>mesh</code> equally spaced levels on <code>mesh_range</code> (default 6 levels on \([-1,1]\), so at most 36 cells in 2-D): \(s_i = \mathrm{snap}(X_i)\). With <code>discretize=False</code>, \(s_i = X_i\). Units whose support points agree to 6 decimals form a tie group, and the code adds \(\pi_{k,i} = \pi_{k,j}\) for every pair in a group, so the policy is a function of \(s\), not of the row index. On continuous raw \(X\) every group is a singleton.</p>
+<h3 id="shared-inputs-lipschitz-policy-class">Lipschitz policy class</h3>
+<p>Present in every LP solver except Oracle. It constrains <strong>arm 1 only</strong>, which is correct for binary treatment; every solver raises when <code>lipschitz</code> is set with \(K \ne 2\).</p>
+<div class="math-block">\[\lvert \pi_{1,i}-\pi_{1,j}\rvert \le L\,\lVert s_i-s_j\rVert_2 \qquad \text{for every pair } (i,j) \text{ in the constraint set}\]</div>
+<ul><li><strong>1-D (exact).</strong> The pairs are consecutive points after sorting. In one dimension this implies the condition for every pair (chain the inequalities along the sorted order), so nothing is lost.</li><li><strong>d &gt; 1 (relaxation).</strong> The pairs are \((i,j)\) with \(j\) among the <code>lipschitz_k</code> nearest neighbours of \(i\) (default 10). Pairs outside that graph are only constrained through chains of neighbours, which is weaker than the all-pairs condition.</li><li>Distances are raw Euclidean on the support points (not z-scored), even when the Wasserstein ground cost is z-scored.</li></ul>
+<aside class="callout caveat"><span class="callout-label">Caveat</span><p>On a grid, a cell holds many identical points. The \(k\) nearest neighbours of a point can then all be copies from its own cell (distance 0), and the constraints only restate the ties. The discretisation runs therefore use <code>lipschitz_k = 30</code>.</p></aside>
+<h3 id="shared-inputs-capacity-capped-files-only">Capacity (capped files only)</h3>
+<div class="math-block">\[\frac1n\sum_{i=1}^n\pi_{k,i}\le \mathrm{cap}_k\qquad\forall k\]</div>
+<p>This is the only difference between every <code>*_capped.py</code> and its <code>*_uncapped.py</code> twin: a diff of every model-building line shows nothing else, and at cap = (1, 1) the two give identical objectives and policies in all 27 tested cases.</p>
+<h3 id="shared-inputs-ground-cost-and-the-tight-wasserstein-radius">Ground cost and the tight Wasserstein radius</h3>
+<p>Files: <code>common/geometry.py</code>, <code>common/wasserstein_radius.py:25–52</code>.</p>
+<p>\(D_{ij} = \lVert s_i - s_j\rVert_2\) on the support points (z-scoring is available but off by default in the solvers). The tight radius of arm \(k\) is the cost of moving the empirical covariate law (mass \(1/n\) on every \(s_i\)) onto the arm-\(k\) reweighted law (mass \(\hat w_j/n\) on \(s_j\), \(j\in I_k\)):</p>
+<div class="math-block">\[\varepsilon_k^{\text{tight}}=\min_{\zeta\ge 0}\ \sum_{i=1}^n\sum_{j\in I_k}D_{ij}\,\zeta_{ij}
+\quad\text{s.t.}\quad \sum_{j\in I_k}\zeta_{ij}=\frac1n\ \ \forall i,\qquad \sum_{i=1}^n\zeta_{ij}=\frac{\hat w_j}{n}\ \ \forall j\in I_k\]</div>
+<p>The solvers use \(\varepsilon_k = c_\varepsilon\cdot\varepsilon_k^{\text{tight}}\). The problem is feasible only because \(\sum_{I_k}\hat w = n\). With \(c_\varepsilon \ge 1\) the nominal weights \(W = \hat w\) lie inside the ball; with \(c_\varepsilon &lt; 1\) they are excluded, which is an extra assumption. Read the ball as covariate balance: it keeps the adversary's reweighted arm-\(k\) sample within \(\varepsilon_k\) of the full sample's covariate distribution.</p>
+<h3 id="shared-inputs-outcome-model">Outcome model</h3>
+<p>File: <code>common/outcome_model.py</code>.</p>
+<p>For each arm, a regression of \(Y\) on \(X\) fitted on that arm's units and used to predict every unit: <code>LinearRegression</code> for a continuous \(Y\), <code>LogisticRegression</code> for a binary one. With <code>cross_fit=True</code> (what the runners use) the sample is split into 5 random folds and each unit's prediction comes from models fitted on the other folds.</p>
+<aside class="callout caveat"><span class="callout-label">Caveat</span><p>A linear \(\hat\mu\) is misspecified whenever \(E[Y \mid x, t]\) is non-linear. The DR methods then lean on the weighted residual term.</p></aside>
+<h3 id="shared-inputs-deploying-a-learned-policy-the-shapley-extension">Deploying a learned policy: the Shapley extension</h3>
+<p>File: <code>extensions/Shapley/shapley.py</code>.</p>
+<p><code>extract_support</code> collapses the training policy to its distinct cells (the mean of \(\pi\) in each cell, a no-op when the policy is tied). A test point \(x\) then gets</p>
+<div class="math-block">\[\pi^{S}(x)=\min_{k}\ \max_{j}\ A_{jk}(x),\qquad A_{jk}(x)=\frac{d_k\,\hat\pi_j+d_j\,\hat\pi_k}{d_j+d_k},\qquad A_{kk}(x)=\hat\pi_k,\qquad d_j=\lVert x-s_j\rVert_2 ,\]</div>
+<p>with an exact return of \(\hat\pi_j\) when \(x\) coincides with a support point. Each \(A_{jk}\) is a convex combination of two support values, so \(\pi^S(x)\) always lies between the smallest and largest learned value.</p>
+<aside class="callout note"><span class="callout-label">Note</span><p>The docstring calls this "the tightest 1-Lipschitz interpolant". That claim is not checked here. What the code guarantees is exactness at support points and values inside the learned range. The runners in <code>assets/exp_*</code> use a vectorised copy (<code>shapley_md</code>) of the same formula.</p></aside></section><section class="panel" role="tabpanel" id="panel-ipw-o-w" aria-labelledby="tab-ipw-o-w" hidden><h2>IPW-O-W</h2><dl class="facts"><dt>File</dt><dd><code>methods/IPW-O-W/ipw_o_w_capped.py</code> (uncapped: same file minus the capacity constraint)</dd><dt>Call</dt><dd><code>solve_ipw_o_w_capped(X, T, Y, ips_weights, n_arms, Gamma, cap, discretize, mesh, zscore, c_eps, epsilon, lipschitz, lipschitz_k)</code></dd><dt>Weights</dt><dd>normalised \(\hat w\)</dd><dt>Returns</dt><dd>policy \(\pi\), worst-case value, all duals \((\beta, \mu, \nu, \gamma, \theta)\)</dd></dl>
+<h3 id="ipw-o-w-what-it-optimises">What it optimises</h3>
+<p>The worst-case IPW value, the worst case taken over the odds box intersected with one Wasserstein ball per arm:</p>
+<div class="math-block">\[\max_{\pi\in\Pi}\ \ \min_{(W,\zeta)\in\mathcal U(\Gamma,\varepsilon)}\ \ \frac1n\sum_{i=1}^n \pi_{T_i,i}\,Y_i\,W_i\]</div>
+<div class="math-block">\[\mathcal U(\Gamma,\varepsilon)=\Big\{(W,\zeta):\ a_i\le W_i\le b_i\ \forall i;\ \ \text{for each arm } k:\ \zeta^k\ge 0,\ \ \sum_{j\in I_k}\zeta^k_{ij}=\tfrac1n\ \forall i,\ \ \sum_{i=1}^n\zeta^k_{ij}=\tfrac{W_j}{n}\ \forall j\in I_k,\ \ \sum_{i}\sum_{j\in I_k}D_{ij}\zeta^k_{ij}\le\varepsilon_k\Big\}\]</div>
+<p>Two consequences of the transport constraints: summing the second marginal over \(j\in I_k\) gives \(\sum_{j\in I_k}W_j = n\) for every arm (so each arm's term is a Hájek ratio), and \(\zeta\ge 0\) gives \(W_j\ge 0\).</p>
+<h3 id="ipw-o-w-the-lp-the-code-builds">The LP the code builds</h3>
+<p>The inner minimum is an LP in \((W,\zeta)\) for fixed \(\pi\). Dualise it with multipliers \(\mu_i \ge 0\) for \(W_i \ge a_i\), \(\nu_i\ge 0\) for \(W_i\le b_i\), \(\gamma_{k,i}\) free for the first marginal, \(\theta_{k,j}\) free for the second, and \(\beta_k\ge0\) for the budget. The outer max then merges with the dual max into one LP:</p>
+<div class="math-block">\[\begin{aligned}
+\max_{\pi\in\Pi,\ \beta\ge0,\ \gamma,\ \theta,\ \mu\ge0,\ \nu\ge0}\quad &amp; \sum_{i=1}^n\big(a_i\mu_i-b_i\nu_i\big)+\frac1n\sum_{k}\sum_{i=1}^n\gamma_{k,i}-\sum_k\varepsilon_k\beta_k\\
+\text{s.t.}\quad &amp; \tfrac1n\,\pi_{k,i}Y_i+\tfrac1n\,\theta_{k,i}-\mu_i+\nu_i\ \ge\ 0 &amp;&amp; \forall k,\ \forall i\in I_k\\
+&amp; \beta_k D_{ij}-\gamma_{k,i}-\theta_{k,j}\ \ge\ 0 &amp;&amp; \forall k,\ \forall i,\ \forall j\in I_k
+\end{aligned}\]</div>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Code (capped file)</th></tr></thead><tbody><tr><td>box \([a,b]\)</td><td>line 142, <code>marginal_sensitivity_box(w_hat, Gamma)</code></td></tr><tr><td>radius \(\varepsilon_k = c_\varepsilon\varepsilon^{\text{tight}}_k\)</td><td>lines 135–136</td></tr><tr><td>objective</td><td>lines 165–172</td></tr><tr><td>Lipschitz, simplex, ties, capacity</td><td>lines 175–204</td></tr><tr><td>factual-row constraint (dual of \(W_i\))</td><td>lines 207–211</td></tr><tr><td>transport constraint (dual of \(\zeta^k_{ij}\))</td><td>lines 214–218</td></tr></tbody></table></div>
+<h3 id="ipw-o-w-how-to-check-the-derivation">How to check the derivation</h3>
+<ol><li>The primal constraint rows and their multipliers: \(W_i\ge a_i\) (\(\mu_i\)), \(-W_i\ge -b_i\) (\(\nu_i\)), \(\sum_j\zeta^k_{ij} = 1/n\) (\(\gamma_{k,i}\)), \(\sum_i\zeta^k_{ij} - W_j/n = 0\) (\(\theta_{k,j}\)), \(-\sum D\zeta\ge-\varepsilon_k\) (\(\beta_k\)).</li><li>Dual objective: \(\sum_i(a_i\mu_i - b_i\nu_i) + \frac1n\sum\gamma - \sum_k\varepsilon_k\beta_k\). This matches lines 165–172.</li><li>Column of \(W_j\) (\(j\in I_k\), cost \(\frac1n\pi_{k,j}Y_j\)): \(\mu_j - \nu_j - \theta_{k,j}/n \le \frac1n\pi_{k,j}Y_j\). The inequality treats \(W_j\) as sign-constrained, which is valid because transport already forces \(W_j\ge0\). Rearranged, this is the factual-row constraint.</li><li>Column of \(\zeta^k_{ij}\) (cost 0): \(\gamma_{k,i}+\theta_{k,j}-\beta_kD_{ij}\le 0\). This is the transport constraint.</li><li>\(\pi\) enters only through the right-hand side \(\frac1n\pi Y\), linearly, so the whole thing is one LP.</li><li>Strong duality needs the inner problem feasible: \(W=\hat w\) with the tight transport plan is feasible whenever \(c_\varepsilon\ge1\) (and the box contains \(\hat w\) for every \(\Gamma \ge 1\)).</li></ol>
+<h3 id="ipw-o-w-notes">Notes</h3>
+<ul><li>If the inner problem is infeasible (e.g. \(c_\varepsilon&lt;1\) at \(\Gamma = 1\)), the dual is unbounded, Gurobi does not return OPTIMAL, and the solver raises <code>RuntimeError</code>.</li><li>The objective value is the worst-case value on the training sample, in the units of the \(Y\) passed in (standardised in the runners).</li><li>The per-arm balls are separate and every unit belongs to one arm, so the adversary's problem splits into one independent problem per arm.</li></ul></section><section class="panel" role="tabpanel" id="panel-doublyrobust-o-w" aria-labelledby="tab-doublyrobust-o-w" hidden><h2>DoublyRobust-O-W</h2><dl class="facts"><dt>File</dt><dd><code>methods/DoublyRobust-O-W/doublyrobust_o_w_capped.py</code></dd><dt>Call</dt><dd>as IPW-O-W, plus <code>outcome_means</code> (\(n\times K\))</dd><dt>Weights</dt><dd>normalised \(\hat w\); outcome model \(\hat\mu\)</dd><dt>Reduces to</dt><dd>IPW-O-W exactly when \(\hat\mu\equiv0\)</dd></dl>
+<h3 id="doublyrobust-o-w-what-it-optimises">What it optimises</h3>
+<p>The AIPW value, with only the weighted residual term made robust:</p>
+<div class="math-block">\[\max_{\pi\in\Pi}\ \ \frac1n\sum_{i=1}^n\sum_{k}\pi_{k,i}\,\hat\mu_k(X_i)\ +\ \min_{(W,\zeta)\in\mathcal U(\Gamma,\varepsilon)}\ \frac1n\sum_{i=1}^n\pi_{T_i,i}\,r_i\,W_i,\qquad r_i=Y_i-\hat\mu_{T_i}(X_i)\]</div>
+<h3 id="doublyrobust-o-w-the-lp-the-code-builds">The LP the code builds</h3>
+<p>The IPW-O-W LP with \(Y_i\) replaced by \(r_i\) in the factual-row constraint, plus the direct term in the objective:</p>
+<div class="math-block">\[\begin{aligned}
+\max\quad &amp; \frac1n\sum_{i,k}\pi_{k,i}\hat\mu_k(X_i)+\sum_i\big(a_i\mu_i-b_i\nu_i\big)+\frac1n\sum_{k,i}\gamma_{k,i}-\sum_k\varepsilon_k\beta_k\\
+\text{s.t.}\quad &amp; \tfrac1n\,\pi_{k,i}\,r_i+\tfrac1n\,\theta_{k,i}-\mu_i+\nu_i\ \ge\ 0 \quad\forall k,\ i\in I_k;\qquad \beta_kD_{ij}-\gamma_{k,i}-\theta_{k,j}\ge 0
+\end{aligned}\]</div>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Code (capped file)</th></tr></thead><tbody><tr><td>residual \(r_i\)</td><td>line 114</td></tr><tr><td>objective (direct + dual)</td><td>lines 158–167</td></tr><tr><td>factual-row constraint with \(r_i\)</td><td>lines 202–205</td></tr><tr><td>transport constraint</td><td>lines 208–212</td></tr></tbody></table></div>
+<h3 id="doublyrobust-o-w-why-robustifying-only-the-residual-is-enough">Why robustifying only the residual is enough</h3>
+<p>If the true weights \(W^*_i = 1/e_{T_i}(X_i, U_i)\) were known, then for <strong>any</strong> \(\hat\mu\), \(E\big[\sum_k\pi_k\hat\mu_k(X) + \pi_T W^*(Y-\hat\mu_T(X))\big] = V(\pi)\), because \(W^*\) reweights each arm to its potential-outcome distribution. So whenever the true weights lie in \(\mathcal U\), the robust objective is a lower bound on the value, whatever the outcome model. The outcome model does not have to be unconfounded: it only changes how tight the bound is. The box width multiplies \(\lvert r_i\rvert\) instead of \(\lvert Y_i\rvert\), so a good \(\hat\mu\) makes the worst case less pessimistic.</p>
+<aside class="callout caveat"><span class="callout-label">Caveat</span><p>That argument uses the unnormalised true weights. With normalised weights and a box built on them (the project's convention), it holds approximately, not exactly.</p></aside></section><section class="panel" role="tabpanel" id="panel-hajek-o-w" aria-labelledby="tab-hajek-o-w" hidden><h2>Hajek-O-W</h2><dl class="facts"><dt>File</dt><dd><code>methods/Hajek-O-W/hajek_o_w_capped.py</code></dd><dt>Call</dt><dd>as IPW-O-W, plus <code>maximize</code> (default <code>True</code>; <code>False</code> flips \(Y\to -Y\))</dd><dt>Weights</dt><dd>normalised \(\hat w\) (unlike Hajek-O-X, which takes raw weights)</dd><dt>Returns</dt><dd>policy, worst-case regret (\(\le 0\)), duals</dd></dl>
+<h3 id="hajek-o-w-what-it-optimises">What it optimises</h3>
+<p>The worst-case <strong>regret</strong> against the treat-nobody policy \(\pi^0\) (\(\pi^0_{0,i} = 1\) for everyone), over the same set as IPW-O-W:</p>
+<div class="math-block">\[\min_{\pi\in\Pi}\ \ \max_{(W,\zeta)\in\mathcal U(\Gamma,\varepsilon)}\ \ \frac1n\sum_{i=1}^n\big(\mathbf 1[T_i=0]-\pi_{T_i,i}\big)\,Y_i\,W_i \;=\; \min_{\pi}\max_{W}\ \big[V(\pi^0,W)-V(\pi,W)\big]\]</div>
+<p>with \(V(\pi,W)=\frac1n\sum_i\pi_{T_i,i}Y_iW_i\). Because the transport marginals force \(\sum_{I_k}W = n\), each arm's contribution equals a self-normalised (Hájek) ratio \(\sum_{I_k}\rho_iW_i/\sum_{I_k}W_i\). That is where the name comes from: it is not a Hájek <em>value</em> estimator.</p>
+<h3 id="hajek-o-w-the-lp-the-code-builds">The LP the code builds</h3>
+<p>Dualise the inner <strong>max</strong> with \(p_i\ge0\) for \(W_i\le b_i\), \(q_i\ge0\) for \(W_i\ge a_i\), \(\gamma,\theta\) free and \(\beta_k\ge0\):</p>
+<div class="math-block">\[\begin{aligned}
+\min_{\pi\in\Pi,\ \beta\ge0,\ \gamma,\ \theta,\ p\ge0,\ q\ge0}\quad &amp; \sum_{i}\big(b_ip_i-a_iq_i\big)+\frac1n\sum_{k,i}\gamma_{k,i}+\sum_k\varepsilon_k\beta_k\\
+\text{s.t.}\quad &amp; p_i-q_i-\tfrac1n\,\theta_{k,i}+\tfrac1n\,\pi_{k,i}Y_i=\tfrac1n\,\mathbf 1[k=0]\,Y_i &amp;&amp; \forall k,\ \forall i\in I_k\\
+&amp; \beta_kD_{ij}+\gamma_{k,i}+\theta_{k,j}\ \ge\ 0 &amp;&amp; \forall k,\ \forall i,\ \forall j\in I_k
+\end{aligned}\]</div>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Code (capped file)</th></tr></thead><tbody><tr><td>objective</td><td>lines 174–180</td></tr><tr><td>factual-row equality (dual of \(W_i\))</td><td>lines 217–221</td></tr><tr><td>transport constraint</td><td>lines 224–228</td></tr></tbody></table></div>
+<p><strong>Check.</strong> The column of \(W_j\) is \(p_j - q_j - \theta_{k,j}/n = \frac1n(\mathbf 1[k=0]-\pi_{k,j})Y_j\), an equality because \(W\) is declared free here. That is equivalent to the IPW-O-W form, since transport forces \(W\ge 0\) anyway. The column of \(\zeta\): \(\gamma_{k,i}+\theta_{k,j}+\beta_kD_{ij}\ge0\) (a max problem's dual, so the sign of \(\beta\)'s term flips relative to IPW-O-W).</p>
+<h3 id="hajek-o-w-notes">Notes</h3>
+<ul><li>\(\pi = \pi^0\) is feasible and gives regret 0, so the optimum is \(\le 0\): the method never does worse than treating nobody <em>in the worst case</em>. At large Γ the optimum is often \(\pi^0\) itself, which explains why its value so often equals treat-nobody.</li><li>Its box is built on normalised weights, while Hajek-O-X's is built on raw weights. The two sets are close but not identical at the same Γ, because the box \(1 + t(w - 1)\) is not invariant to rescaling \(w\).</li></ul></section><section class="panel" role="tabpanel" id="panel-ipw-o-x" aria-labelledby="tab-ipw-o-x" hidden><h2>IPW-O-X</h2><dl class="facts"><dt>File</dt><dd><code>methods/IPW-O-X/ipw_o_x_capped.py</code></dd><dt>Call</dt><dd>as IPW-O-W without <code>c_eps</code>, <code>epsilon</code>, <code>zscore</code>, <code>metric</code></dd><dt>Weights</dt><dd>normalised \(\hat w\)</dd><dt>Returns</dt><dd>policy, worst-case value, duals \((\mu, \nu, \beta)\) — here \(\beta\) is the calibration dual, free in sign</dd></dl>
+<h3 id="ipw-o-x-what-it-optimises">What it optimises</h3>
+<div class="math-block">\[\max_{\pi\in\Pi}\ \ \min_{W}\ \ \frac1n\sum_{i=1}^n\pi_{T_i,i}\,Y_i\,W_i\qquad\text{s.t.}\quad a_i\le W_i\le b_i\ \ \forall i,\qquad \sum_{i\in I_k}W_i=n\ \ \forall k\]</div>
+<p>For fixed \(\pi\) the inner problem is a fractional knapsack per arm: starting from \(W = a\), the adversary spends the remaining budget \(n - \sum_{I_k}a_i\) raising weights toward \(b_i\) on the units with the smallest \(\pi_{k,i}Y_i\) first.</p>
+<h3 id="ipw-o-x-the-lp-the-code-builds">The LP the code builds</h3>
+<p>Multipliers \(\mu_i\ge0\) (\(W_i\ge a_i\)), \(\nu_i\ge0\) (\(W_i\le b_i\)), \(\beta_k\) free (calibration); \(W\) is a free variable, so its dual constraint is an equality:</p>
+<div class="math-block">\[\begin{aligned}
+\max_{\pi\in\Pi,\ \mu\ge0,\ \nu\ge0,\ \beta}\quad &amp; \sum_{i=1}^n\big(a_i\mu_i-b_i\nu_i\big)+n\sum_k\beta_k\\
+\text{s.t.}\quad &amp; \mu_i-\nu_i+\beta_{T_i}=\tfrac1n\,\pi_{T_i,i}\,Y_i\qquad\forall i
+\end{aligned}\]</div>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Code (capped file)</th></tr></thead><tbody><tr><td>box</td><td>line 101</td></tr><tr><td>objective</td><td>lines 116–121</td></tr><tr><td>stationarity (dual of \(W_i\))</td><td>lines 125–127</td></tr><tr><td>policy constraints</td><td>lines 130–159</td></tr></tbody></table></div>
+<aside class="callout finding"><span class="callout-label">Finding</span><p>Because \(W\) is free, a negative lower end \(a_i&lt;0\) (possible for \(\hat w_i&lt;1\) at large Γ; see Shared inputs) would let the adversary put a negative weight on unit \(i\); the O-W programs cannot. Measured: it never happened in our designs, and clamping at 0 changes nothing (Findings tab, item 1).</p></aside></section><section class="panel" role="tabpanel" id="panel-doublyrobust-o-x" aria-labelledby="tab-doublyrobust-o-x" hidden><h2>DoublyRobust-O-X</h2><dl class="facts"><dt>File</dt><dd><code>methods/DoublyRobust-O-X/doublyrobust_o_x_capped.py</code></dd><dt>Weights</dt><dd>normalised \(\hat w\); outcome model \(\hat\mu\)</dd><dt>Reduces to</dt><dd>IPW-O-X exactly when \(\hat\mu\equiv0\)</dd></dl>
+<div class="math-block">\[\max_{\pi\in\Pi}\ \frac1n\sum_{i,k}\pi_{k,i}\hat\mu_k(X_i)+\min_{W}\Big\{\frac1n\sum_i\pi_{T_i,i}\,r_i\,W_i\ :\ a\le W\le b,\ \sum_{I_k}W=n\Big\}\]</div>
+<p>The LP is IPW-O-X's with \(Y_i\) replaced by \(r_i\) and the direct term added:</p>
+<div class="math-block">\[\max\ \ \frac1n\sum_{i,k}\pi_{k,i}\hat\mu_k(X_i)+\sum_i\big(a_i\mu_i-b_i\nu_i\big)+n\sum_k\beta_k\quad\text{s.t.}\quad \mu_i-\nu_i+\beta_{T_i}=\tfrac1n\,\pi_{T_i,i}\,r_i\ \ \forall i\]</div>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Code (capped file)</th></tr></thead><tbody><tr><td>residual</td><td>line 101</td></tr><tr><td>objective</td><td>lines 124–132</td></tr><tr><td>stationarity</td><td>lines 136–138</td></tr></tbody></table></div>
+<p>The argument for robustifying only the residual is the same as on the DoublyRobust-O-W tab, and so is the negative-weight finding on the IPW-O-X tab.</p></section><section class="panel" role="tabpanel" id="panel-hajek-o-x" aria-labelledby="tab-hajek-o-x" hidden><h2>Hajek-O-X</h2><dl class="facts"><dt>File</dt><dd><code>methods/Hajek-O-X/hajek_o_x_capped.py</code></dd><dt>Weights</dt><dd><strong>raw</strong> \(\tilde w_i = 1/\hat e_{T_i}(X_i)\ge1\); the solver raises if any \(a_i \le 0\) (lines 110–111)</dd><dt>Returns</dt><dd>policy, worst-case regret (\(\le 0\)), per-arm levels \(\lambda_t\), duals \(u, v\)</dd></dl>
+<h3 id="hajek-o-x-what-it-optimises">What it optimises</h3>
+<p>Kallus &amp; Zhou's self-normalised worst-case regret against treat-nobody, one ratio per arm:</p>
+<div class="math-block">\[\min_{\pi\in\Pi}\ \sum_{t}\hat Q_t(\pi),\qquad
+\hat Q_t(\pi)=\max_{a\le W\le b}\ \frac{\sum_{i\in I_t}\rho_i\,W_i}{\sum_{i\in I_t}W_i},\qquad
+\rho_i=\big(\mathbf 1[t=0]-\pi_{t,i}\big)\,Y_i\]</div>
+<p>There is no calibration constraint: the denominator floats with \(W\).</p>
+<h3 id="hajek-o-x-the-lp-the-code-builds">The LP the code builds</h3>
+<p>Charnes–Cooper turns each ratio into an LP: \(\hat Q_t = \max_{w\ge0,\,s\ge0}\sum_{I_t}\rho_iw_i\) s.t. \(\sum_{I_t}w_i = 1\), \(s\,a_i\le w_i\le s\,b_i\). Its dual is \(\hat Q_t = \min\lambda_t\) s.t. \(\lambda_t - u_i + v_i\ge\rho_i\), \(\sum_{I_t}(a_iu_i - b_iv_i)\ge0\), \(u,v\ge0\). Merging with the outer min:</p>
+<div class="math-block">\[\begin{aligned}
+\min_{\pi\in\Pi,\ \lambda,\ u\ge0,\ v\ge0}\quad &amp; \sum_t\lambda_t\\
+\text{s.t.}\quad &amp; v_i-u_i+\lambda_{T_i}+Y_i\,\pi_{T_i,i}\ \ge\ \mathbf 1[T_i=0]\,Y_i &amp;&amp; \forall i\\
+&amp; \sum_{i\in I_t}\big(a_iu_i-b_iv_i\big)\ \ge\ 0 &amp;&amp; \forall t
+\end{aligned}\]</div>
+<div class="table-wrap"><table><thead><tr><th>Term</th><th>Code (capped file)</th></tr></thead><tbody><tr><td>objective \(\sum_t\lambda_t\)</td><td>line 131</td></tr><tr><td>per-unit constraint (dual of \(w_i\))</td><td>lines 135–138</td></tr><tr><td>per-arm constraint (dual of \(s\))</td><td>lines 140–142</td></tr></tbody></table></div>
+<p><strong>Check.</strong> In the Charnes–Cooper primal the rows are \(\sum w = 1\) (multiplier \(\lambda\), free), \(-w_i + s\,a_i\le 0\) (\(u_i\)), \(w_i - s\,b_i\le0\) (\(v_i\)). Column of \(w_i\): \(\lambda - u_i + v_i\ge\rho_i\). Column of \(s\) (cost 0): \(\sum(a_iu_i - b_iv_i)\ge0\). Charnes–Cooper needs a positive denominator, hence \(a_i&gt;0\), hence raw weights.</p>
+<h3 id="hajek-o-x-notes">Notes</h3>
+<ul><li>Regret \(\le 0\) and the treat-nobody floor, as for Hajek-O-W.</li><li>At Γ = 1 it has the same argmax as IPW-X-X (see the Overview).</li></ul></section><section class="panel" role="tabpanel" id="panel-ipw-x-x" aria-labelledby="tab-ipw-x-x" hidden><h2>IPW-X-X</h2><dl class="facts"><dt>File</dt><dd><code>methods/IPW-X-X/ipw_x_x_capped.py</code></dd><dt>Weights</dt><dd>normalised \(\hat w\)</dd><dt>Returns</dt><dd>policy and value; no duals</dd></dl>
+<div class="math-block">\[\max_{\pi\in\Pi}\ \ \frac1n\sum_{i=1}^n\hat w_i\,Y_i\,\pi_{T_i,i}\;=\;\sum_k\frac{\sum_{i\in I_k}\hat w_iY_i\pi_{k,i}}{\sum_{i\in I_k}\hat w_i}\]</div>
+<p>The equality holds because \(\sum_{I_k}\hat w = n\), so this is the Hájek (self-normalised) IPW value. Objective: lines 104–108. It is the non-robust point that IPW-O-W and IPW-O-X reduce to at Γ = 1.</p></section><section class="panel" role="tabpanel" id="panel-doublyrobust-x-x" aria-labelledby="tab-doublyrobust-x-x" hidden><h2>DoublyRobust-X-X</h2><dl class="facts"><dt>File</dt><dd><code>methods/DoublyRobust-X-X/doublyrobust_x_x_capped.py</code></dd><dt>Weights</dt><dd>normalised \(\hat w\); outcome model \(\hat\mu\)</dd><dt>Note</dt><dd>accepts a <code>Gamma</code> argument for signature parity and <strong>ignores it</strong></dd></dl>
+<div class="math-block">\[\max_{\pi\in\Pi}\ \ \frac1n\sum_{i=1}^n\Big[\sum_k\pi_{k,i}\,\hat\mu_k(X_i)+\hat w_i\,r_i\,\pi_{T_i,i}\Big]\]</div>
+<p>The standard AIPW value at the nominal weights (objective: lines 109–115). DoublyRobust-O-W and DoublyRobust-O-X reduce to it at Γ = 1.</p></section><section class="panel" role="tabpanel" id="panel-direct-x-x" aria-labelledby="tab-direct-x-x" hidden><h2>Direct-X-X</h2><dl class="facts"><dt>File</dt><dd><code>methods/Direct-X-X/direct_x_x_capped.py</code></dd><dt>Weights</dt><dd>none (every weight fixed at 1)</dd></dl>
+<div class="math-block">\[\max_{\pi\in\Pi}\ \ \frac1n\sum_{i=1}^n Y_i\,\pi_{T_i,i}\]</div>
+<p>Objective: lines 100–102.</p>
+<aside class="callout finding"><span class="callout-label">Finding</span><p>This is IPW with every weight set to 1, and it does <strong>not</strong> estimate the policy value, even without confounding. Its population target is \(E[\pi_T(X)\,Y] = \sum_k E[e_k(X)\,\pi_k(X)\,E(Y \mid X, T=k)]\), i.e. each arm's outcome weighted by how often the logging policy chose that arm. In a cell it prefers the arm whose observed outcomes have the larger <em>sum</em>, which mixes outcome size with how many units took that arm. It is not the "naive" regression rule: the runners' separate <code>naive</code> baseline is \(\pi_1(x) = \mathbf 1[\hat\mu_1(x) &gt; \hat\mu_0(x)]\).</p></aside></section><section class="panel" role="tabpanel" id="panel-kallus" aria-labelledby="tab-kallus" hidden><h2>Kallus</h2><dl class="facts"><dt>File</dt><dd><code>methods/Kallus/kallus.py</code>, <code>fit_kallus_paper</code> (lines 363–438), inner solver lines 312–341</dd><dt>Source</dt><dd>a port of Kallus &amp; Zhou's repository (confounding-robust-policy-improvement), their synthetic driver's settings</dd><dt>Weights</dt><dd><strong>raw</strong> \(\tilde w\ge 1\) (raises otherwise)</dd><dt>Policy</dt><dd>logistic, \(\pi_1(x)=\sigma(\theta^\top[x,1])\); binary treatment only</dd></dl>
+<h3 id="kallus-what-it-optimises">What it optimises</h3>
+<p>The same objective as Hajek-O-X, restricted to logistic policies. With \(y^{\text{loss}}_i = -Y_i\) (because <code>maximize=True</code>) and \(\mathrm{sgn}_i = +1\) for treated, \(-1\) for control:</p>
+<div class="math-block">\[\min_{\theta\in\mathbb R^{d+1}}\ \sum_{s\in\{\text{treated},\,\text{control}\}}\ \max_{a\le W\le b}\ \frac{\sum_{i\in I_s}c_i(\theta)\,W_i}{\sum_{i\in I_s}W_i},\qquad c_i(\theta)=\mathrm{sgn}_i\,y^{\text{loss}}_i\,\sigma\big(\theta^\top[X_i,1]\big)\]</div>
+<p>with the box on raw weights, \(a_i = 1 + (\tilde w_i - 1)/\Gamma\), \(b_i = 1 + (\tilde w_i - 1)\Gamma\). For a treated unit \(c_i = -Y_i\pi_1\) and for a control unit \(c_i = Y_i\pi_1\), which is exactly Hajek-O-X's \(\rho_i\) for two arms.</p>
+<h3 id="kallus-how-it-is-solved-not-an-lp">How it is solved (not an LP)</h3>
+<ol><li><strong>Inner max.</strong> Sort by \(c_i\); the maximiser puts weight \(a\) below a threshold and \(b\) above it. The threshold is found by ternary search on the ratio, as in their <code>find_opt_weights_shorter</code>.</li><li><strong>Outer step.</strong> Subgradient \(g = \sum_i y^{\text{loss}}_i\,\mathrm{sgn}_i\,\bar W_i\,\pi_{1,i}(1-\pi_{1,i})\,[X_i,1]\), where \(\bar W\) is each arm's worst-case weights normalised to sum to 1 and then renormalised globally (each arm therefore carries total weight \(1/2\), which only rescales the step). By Danskin's theorem this is a valid subgradient of the max.</li><li><strong>Step size.</strong> Armijo backtracking (start 1, factor 0.2, \(\beta = 10^{-4}\), up to 20 tries), falling back to \(1/\sqrt{k+1}\).</li><li><strong>Rounds.</strong> \(N = \mathrm{clip}(\lfloor G^2D^2/0.05^2\rfloor, 50, 200)\), with their \(D\) and \(G\) formulas (their \(G\) uses the raw dimension \(d\), reproduced as-is).</li><li><strong>Restarts.</strong> 15; restart 0 starts at \(\theta = (0,\dots,0,-1000)\), i.e. at treat-nobody; the others at \(0.25\cdot N(0, I)\). Each restart is scored by the mean loss over its rounds and returns the average of its iterates (Polyak averaging). The best restart wins.</li></ol>
+<aside class="callout caveat"><span class="callout-label">Caveat</span><p>The problem is non-convex in \(\theta\), so this is a heuristic with restarts, not a certified optimum. The single deliberate deviation from their code is that numpy is seeded per restart (theirs is effectively unseeded). At large Γ the treat-nobody start usually wins: that is the regret floor, not an optimiser failure (checked 2026-09-13).</p></aside></section><section class="panel" role="tabpanel" id="panel-sharphess" aria-labelledby="tab-sharphess" hidden><h2>SharpHess</h2><dl class="facts"><dt>File</dt><dd><code>methods/SharpHess/sharp_hess.py</code>: <code>hess_paper</code> (lines 528–555), <code>nuisances_nn_paper</code> (496–525), <code>scores</code> (101–128), <code>_MLP</code> (312–)</dd><dt>Source</dt><dd>Hess, Frauen, Melnychuk &amp; Feuerriegel (ICLR 2026), replicating their repository's code</dd><dt>Policy</dt><dd>a {64, 32} ReLU network with sigmoid output</dd></dl>
+<h3 id="sharphess-what-it-computes">What it computes</h3>
+<p><strong>Step 1, sign and scale.</strong> Work with \(Y^p = -Y\) (their convention is "lower is better"), standardised to mean 0, sd 1.</p>
+<p><strong>Step 2, split.</strong> A random 50/50 split into halves \(A\) (nuisances) and \(B\) (policy).</p>
+<p><strong>Step 3, nuisances on \(A\).</strong> Each is a {64, 32} MLP trained with Adam (lr \(10^{-3}\), batch 64, at most 300 epochs, early stopping with patience 10 on a 20% validation split):</p>
+<ul><li>\(\hat e(x)\), the propensity (binary cross-entropy; numerical floor \(10^{-6}\));</li><li>\(\hat q(x,a)\), the \(\alpha^+\)-quantile of \(Y^p\) given \((x,a)\), with \(\alpha^+ = \Gamma/(1+\Gamma)\) (pinball loss on \((x,\text{one-hot }a)\));</li><li>\(\hat\mu^+(x,a) = E[Y^p\,\mathbf 1\{Y^p\le \hat q\}]\) and \(\hat{\bar\mu}^+(x,a) = E[Y^p\,\mathbf 1\{Y^p\ge \hat q\}]\) (MSE on masked targets, with the quantile net frozen).</li></ul>
+<p><strong>Step 4, scores on \(B\)</strong> (their Eq. 15), with \(b^+ = 1-\Gamma\), \(b^- = 1-1/\Gamma\), \(c^\pm(a,x) = b^\pm e(a,x) + \Gamma^{\pm1}\) and \(Q = c^-\mu^+ + c^+\bar\mu^+\):</p>
+<div class="math-block">\[g_i(a)=Q_{a,i}-e_{a,i}\big(b^-\mu^+_{a,i}+b^+\bar\mu^+_{a,i}\big)+\mathbf 1[T_i=a]\Big\{b^-\mu^+_{a,i}+b^+\bar\mu^+_{a,i}+\frac{(c^-_{a,i}-c^+_{a,i})\,q_{a,i}(\Delta_i-\alpha^+)+c^-_{a,i}(Y^p_i\Delta_i-\mu^+_{a,i})+c^+_{a,i}(Y^p_i\bar\Delta_i-\bar\mu^+_{a,i})}{e_{a,i}}\Big\}\]</div>
+<p>with \(\Delta_i = \mathbf 1\{Y^p_i\le q_{T_i,i}\}\) and \(\bar\Delta_i = \mathbf 1\{Y^p_i\ge q_{T_i,i}\}\). The scores are then negated, turning an upper bound on the loss into a lower bound on the value on our scale.</p>
+<p><strong>Step 5, policy on \(B\).</strong> A network \(f\) trained to minimise \(-\frac1{\lvert B\rvert}\sum_{i\in B}\sigma(f(X_i))\,\big(g_i(1)-g_i(0)\big)\), i.e. to maximise the estimated sharp lower bound \(\frac1{\lvert B\rvert}\sum_i[\pi_1 g_i(1) + (1-\pi_1)g_i(0)]\) (\(g_i(0)\) does not depend on the policy). Deployment: \(\pi_1(x) = \sigma(f(x))\).</p>
+<h3 id="sharphess-notes">Notes</h3>
+<ul><li>At Γ = 1: \(b^\pm = 0\), \(c^\pm = 1\), \(\alpha^+ = 1/2\), and the score reduces to the AIPW score. The file contains numerical tests of this identity.</li><li>The policy is learned from half the sample (100 units at \(n = 200\)), has no Lipschitz constraint, and is noticeably seed-sensitive. Use at least 10 seeds.</li></ul></section><section class="panel" role="tabpanel" id="panel-oracle" aria-labelledby="tab-oracle" hidden><h2>Oracle</h2><dl class="facts"><dt>File</dt><dd><code>methods/Oracle/oracle_capped.py</code>, <code>oracle_uncapped.py</code></dd><dt>Input</dt><dd>a value matrix <code>values</code> (\(n\times K\)), e.g. true potential outcomes or true means</dd></dl>
+<div class="math-block">\[\max_{\pi\in\Pi_{\text{no Lipschitz}}}\ \ \frac1n\sum_{i=1}^n\sum_k\pi_{k,i}\,V_{i,k}\]</div>
+<p>A reference ceiling, not a method. Without capacity it reduces to assigning each cell to the arm with the largest cell-average value. No current runner calls it: the experiment runners compute the oracle directly from the DGP, \(\pi^*(x) = \mathbf 1[E(\tau\mid x) &gt; 0]\).</p></section><section class="panel" role="tabpanel" id="panel-findings" aria-labelledby="tab-findings" hidden><h2>Findings</h2><p>Every item below was found by reading the code for this document. They are listed with how much they matter.</p>
+<h3 id="findings-checked-and-correct">Checked and correct</h3>
+<ul><li><strong>The six robust LPs.</strong> For IPW-O-W, DoublyRobust-O-W, Hajek-O-W, IPW-O-X, DoublyRobust-O-X and Hajek-O-X, the dual was re-derived term by term from the stated inner problem, and every objective term, constraint and sign in the code matches (the "How to check" steps on each tab).</li><li><strong>The three non-robust LPs and the Oracle</strong> are the stated linear objectives over \(\Pi\).</li><li><strong>Capped vs uncapped.</strong> They differ only in the capacity constraint (a diff of every model line, and 27 of 27 numerical cases).</li><li><strong>Γ = 1 reductions.</strong> Each is exact for the reasons given on the Overview tab; IPW-O-W = IPW-O-X = IPW-X-X was confirmed numerically.</li><li><strong>The box.</strong> It is Tan's odds-ratio interval for a raw weight, and \(\Gamma^*\) as computed is the smallest Γ that contains every true weight.</li></ul>
+<h3 id="findings-worth-your-attention">Worth your attention</h3>
+<ol><li><strong>O-X could admit negative weights (latent).</strong> For a unit with normalised \(\hat w_i&lt;1\) the box's lower end is negative once \(\Gamma&gt;1/(1-\hat w_i)\), and in IPW-O-X / DoublyRobust-O-X the weight variable is free. O-W is not affected (transport forces \(W\ge0\)), nor are Hajek-O-X and Kallus (raw weights \(\ge 1\)). <em>Measured (debug job 11971463):</em> on Our DGP and L4 at \(n = 200\), 3 draws each, no unit had \(\hat w_i&lt;1\); at Γ ∈ {2.9, 5, 30, 150}, clamping the lower end at 0 gave identical objectives and policies for both O-X methods. A one-line guard, <code>a = max(a, 0)</code> in the O-X solvers, would make it impossible; it is not applied, to keep code 1.2 identical to code 1.1.</li><li><strong>Two weight conventions.</strong> The box is built on normalised weights for five methods and on raw weights for Hajek-O-X and Kallus. At the same Γ these are close but different sets, because \(1 + t(w-1)\) is not invariant to rescaling \(w\). This is the agreed convention (normalise first, then box); state it in the paper.</li><li><strong>The propensity model is L2-regularised</strong> (scikit-learn default <code>C = 1</code>), not the unpenalised MLE.</li><li><strong>Direct-X-X is not a value estimator.</strong> It maximises a propensity-weighted sum of factual outcomes (see its tab). If the paper calls it "naive", say what it computes.</li></ol>
+<h3 id="findings-by-design-but-say-it-in-the-paper">By design, but say it in the paper</h3>
+<ol><li><strong>Regret methods have a treat-nobody floor.</strong> Hajek-O-W, Hajek-O-X and Kallus minimise worst-case regret against treat-nobody, so their optimum is never worse than treating nobody in the worst case, and at large Γ it often <em>is</em> treating nobody.</li><li><strong>The Lipschitz class in \(d&gt;1\) is a \(k\)-nearest-neighbour relaxation</strong>, and on a grid the neighbours can be copies of the same cell. The 1-D class is exact.</li><li><strong>Kallus is a non-convex heuristic</strong> (15 restarts, subgradient descent, Polyak averaging); <strong>SharpHess learns from half the sample</strong> with neural networks. Both are implemented as their authors' code does it.</li></ol>
+<h3 id="findings-harmless">Harmless</h3>
+<ol><li><strong>DoublyRobust-X-X ignores its <code>Gamma</code> argument.</strong> It is kept only so the call signature matches.</li><li><strong>The Shapley extension's "tightest 1-Lipschitz" docstring claim is unverified;</strong> exactness at support points holds.</li><li><strong>The mathematical notes</strong> (<code>&lt;Method&gt;.html</code>) that the docstrings point to live in code 1.1, not code 1.2.</li></ol></section></main>
+<footer>Source of truth: code 1.2/docs/METHODS.md · this page is generated by docs/build_methods_html.py</footer>
+</div>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] },
+  svg: { fontCache: "global" },
+  startup: { typeset: false, ready() { MathJax.startup.defaultReady(); MathJax.startup.promise.then(() => typeset(current())); } }
+};
+const done = new WeakSet();
+function current() { return document.querySelector(".panel:not([hidden])"); }
+function typeset(panel) {
+  if (!panel || done.has(panel) || !window.MathJax || !MathJax.typesetPromise) return;
+  done.add(panel);
+  MathJax.typesetPromise([panel]).catch(() => done.delete(panel));
+}
+const tabs = [...document.querySelectorAll('nav.tabs [role="tab"]')];
+function show(id, focus) {
+  const btn = document.getElementById("tab-" + id) || tabs[0];
+  tabs.forEach(t => {
+    const on = t === btn;
+    t.setAttribute("aria-selected", on); t.tabIndex = on ? 0 : -1;
+    document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+  });
+  if (focus) btn.focus();
+  typeset(current());
+  const want = "#" + btn.id.slice(4);
+  if (location.hash !== want) history.replaceState(null, "", want);
+}
+tabs.forEach((t, i) => {
+  t.addEventListener("click", () => { show(t.id.slice(4)); window.scrollTo({ top: document.querySelector("nav.tabs").offsetTop, behavior: "auto" }); });
+  t.addEventListener("keydown", e => {
+    const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+    if (d) { e.preventDefault(); show(tabs[(i + d + tabs.length) % tabs.length].id.slice(4), true); }
+  });
+});
+show((location.hash || "").slice(1));
+window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg-full.min.js"></script>

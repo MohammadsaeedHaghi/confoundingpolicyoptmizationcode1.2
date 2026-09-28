@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+*.so
+.ipynb_checkpoints/
+gurobi.log
+gurobi.lic
+*.lic
+.DS_Store
