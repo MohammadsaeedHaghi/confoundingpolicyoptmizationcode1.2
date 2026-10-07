@@ -541,6 +541,48 @@ Every item below was found by reading the code for this document. They are liste
 - **Γ = 1 reductions.** Each is exact for the reasons given on the Overview tab; IPW-O-W = IPW-O-X = IPW-X-X was confirmed numerically.
 - **The box.** It is Tan's odds-ratio interval for a raw weight, and $\Gamma^*$ as computed is the smallest Γ that contains every true weight.
 
+### Defects: do not report these results
+
+Lettered so the numbered list below keeps its references. These are not caveats to state in the
+paper, they are results that are wrong.
+
+- **A. Efficient sharp (`methods/SharpHess/sharp_hess.py`) does not reproduce its paper.** On Hess
+  et al.'s own benchmark it returns a near-random policy: regret $-0.010$ at $n = 5000$ against
+  their published $-1.00$, and it degrades as the sample grows. Their repository reproduces their
+  paper on identical data ($-0.9066$ over five seeds), which rules out the DGP, the metric, the
+  sample size and the policy class; also ruled out by reading are the bound algebra, the correction
+  terms, the nuisance targets, $\alpha^+$, the bound direction, the policy objective and the
+  architecture. The remaining suspect is the hand-rolled numpy MLP stack. **Every Efficient sharp
+  number this library has produced is void**, including the UCI10 and risk-score columns and the KMZ
+  appendix table. Do not report it again until it reproduces $-1.12$ / $-1.00$ / $-0.89$ on their
+  Γ\* sweep at $n = 5000$. Their code and a working environment are at
+  `/scratch1/haghim/repos/Efficient_sharp_policy_learning` and `/scratch1/haghim/repos/hess_venv`
+  (needs `MLFLOW_ALLOW_FILE_STORE=true`).
+
+- **B. X-W is not a solver in this library, and the floor it uses is wrong.** There is no `methods/X-W`
+  directory and no other tab in this document covers X-W. The set exists only as a four-line closure
+  `_floor_box` monkey-patched over `marginal_sensitivity_box` in `experiment/run_experiment1.py`
+  (defined around line 55, applied around line 116), duplicated in
+  `experiment/validate_against_code11.py`. That closure returns a lower end of
+  $\min(1, \hat w_i)$ and an upper end of $n$. **The intended set has $w_i \ge 1$** (decided
+  2026-10-07), which is the $\Gamma \to \infty$ limit of O-W: positivity gives $w(X,T) > 1$, so the
+  odds box implies $W > 1$ at every Γ. The patched floor lets a unit with $\hat w_i < 1$ sit below
+  one, so it is a defect rather than the specification, and **every X-W number on record was
+  produced with it**. Downstream code nonetheless treats `IPW-X-W` and `DoublyRobust-X-W` as
+  first-class methods (`summarise_experiment1.py`, `fig_note_experiment1.py`, `save_sweep.py`).
+  The upper end of $n$ is sound as used, because the O-W transport marginals
+  (`common/wasserstein_radius.py`) force $\sum_{\mathcal I_t} w = n$; it would not be sound if the
+  same closure were patched onto an O-X module, which has no transport constraint.
+
+- **C. `experiment/run_hajek1.py` mixes the two weight conventions.** It builds the box on the raw
+  inverse weights and takes the Wasserstein radius from the normalised ones (around lines 73 to 78,
+  passed to the solver around lines 94 to 97), and its own comment says so. For Hajek-O-W this is
+  inconsistent: the O-W transport marginals require $\sum_{\mathcal I_t} w = n$, which raw
+  Horvitz-Thompson weights satisfy only in expectation, so the box and the ball need only
+  approximately intersect, and at $\Gamma = 1$ the intersection requires the raw per-arm sum to hit
+  $n$ exactly. This is the Hajek-O-W failure at $\Gamma = 1$. The library's own path is clean: every
+  O-W solver computes `tight_epsilon` from the same $\hat w$ it boxes.
+
 ### Worth your attention
 
 1. **O-X could admit negative weights (latent).** For a unit with normalised $\hat w_i<1$ the box's lower end is negative once $\Gamma>1/(1-\hat w_i)$, and in IPW-O-X / DoublyRobust-O-X the weight variable is free. O-W is not affected (transport forces $W\ge0$), nor are Hajek-O-X and Kallus (raw weights $\ge 1$). *Measured (debug job 11971463):* on Our DGP and L4 at $n = 200$, 3 draws each, no unit had $\hat w_i<1$; at Γ ∈ {2.9, 5, 30, 150}, clamping the lower end at 0 gave identical objectives and policies for both O-X methods. A one-line guard, `a = max(a, 0)` in the O-X solvers, would make it impossible; it is not applied, to keep code 1.2 identical to code 1.1.
